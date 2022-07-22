@@ -25,9 +25,9 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  const bot_id = process.env.BOT_ID; // Put your bot id here
+  const bot_token = process.env.BOT_TOKEN; // Put your bot id here
 
-  if (typeof bot_id === "undefined") {
+  if (typeof bot_token === "undefined") {
     throw new Error("bot_id is not defined");
   }
 
@@ -35,7 +35,9 @@ export const action: ActionFunction = async ({ request }) => {
   const user: TgLoginData = JSON.parse(formData.get("user") as string);
 
   const message = `Hello, ${user.first_name}! You are logged in as ${user.username}`;
-  const bot = new Bot(bot_id); // create new bot instance
+  const bot = new Bot(bot_token); // create new bot instance
+  console.log(user);
+
   await bot.api.sendMessage(user.id, message); // send message to user
 
   return json({});
